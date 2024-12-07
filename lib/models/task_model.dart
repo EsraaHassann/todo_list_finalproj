@@ -1,6 +1,7 @@
 class Task {
-  String name;
-  String details;
+  final String name;
+  final String details;
+  bool isDone;
 
-  Task({required this.name, required this.details});
+  Task({required this.name, required this.details, this.isDone = false});
 }
