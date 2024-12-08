@@ -53,24 +53,27 @@ class _ToDoScreenState extends State<ToDoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100], // Light gray background like Home Page
+      backgroundColor: const Color(0xFFFFF0F5), // Light pink background
       appBar: AppBar(
-        title: const Text("To-Do"),
-        backgroundColor: Colors.grey, // Consistent navbar like Home
+        title: const Text(
+          "To-Do",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: const Color(0xFFFF69B4), // Hot pink AppBar
+        elevation: 0,
       ),
       body: Column(
         children: [
           Row(
             children: [
-              _buildTabButton(
-                  "To-Do", 0, const Color.fromARGB(255, 215, 211, 211)),
-              _buildTabButton("Done", 1, Colors.green),
+              _buildTabButton("To-Do", 0, const Color(0xFFFFB6C1)), // Pastel pink
+              _buildTabButton("Done", 1, const Color(0xFFDB7093)), // Rosy pink
             ],
           ),
           Expanded(
             child: Container(
               padding: const EdgeInsets.all(8),
-              color: Colors.grey[100], // Match the same design aesthetics
+              color: const Color(0xFFFFF0F5), // Match pink background
               child: ListView.builder(
                 itemCount: selectedTab == 0
                     ? pendingTasks.length
@@ -93,8 +96,8 @@ class _ToDoScreenState extends State<ToDoScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showTaskDialog(),
-        child: const Icon(Icons.add),
-        backgroundColor: Colors.green,
+        backgroundColor: const Color(0xFFFF69B4), // Hot pink
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
@@ -112,8 +115,15 @@ class _ToDoScreenState extends State<ToDoScreen> {
           decoration: BoxDecoration(
             color: selectedTab == tabIndex
                 ? backgroundColor
-                : Colors.grey[300], // Active tab vs inactive tabs
-            borderRadius: BorderRadius.circular(5),
+                : const Color(0xFFFFC0CB), // Inactive tabs in light pink
+            borderRadius: BorderRadius.circular(20), // Rounded corners
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 4,
+                offset: const Offset(2, 2),
+              ),
+            ],
           ),
           child: Text(
             title,
@@ -121,7 +131,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
             style: TextStyle(
               color: selectedTab == tabIndex ? Colors.white : Colors.black,
               fontWeight: FontWeight.bold,
-              fontSize: 16, // Slightly bigger text
+              fontSize: 16,
             ),
           ),
         ),
