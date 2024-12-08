@@ -38,6 +38,7 @@ class TaskDialog extends StatelessWidget {
             onSave(Task(
               name: nameController.text,
               details: detailsController.text,
+              isDone: task?.isDone ?? false,
             ));
             Navigator.pop(context);
           },
