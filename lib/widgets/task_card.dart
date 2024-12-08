@@ -3,14 +3,14 @@ import '../models/task_model.dart';
 
 class TaskCard extends StatelessWidget {
   final Task task;
-  final VoidCallback onMark;
+  final VoidCallback? onMark;
   final VoidCallback onDelete;
   final Function(Task) onEdit;
 
   const TaskCard({
     Key? key,
     required this.task,
-    required this.onMark,
+    this.onMark,
     required this.onDelete,
     required this.onEdit,
   }) : super(key: key);
@@ -25,10 +25,11 @@ class TaskCard extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            IconButton(
-              icon: const Icon(Icons.check, color: Colors.green),
-              onPressed: onMark,
-            ),
+            if (!task.isDone)
+              IconButton(
+                icon: const Icon(Icons.check, color: Colors.green),
+                onPressed: onMark,
+              ),
             IconButton(
               icon: const Icon(Icons.edit, color: Colors.yellow),
               onPressed: () => onEdit(task),
