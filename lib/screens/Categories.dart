@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 class Categories extends StatelessWidget {
   final String title;
 
@@ -88,7 +89,6 @@ class Categories extends StatelessWidget {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.category), label: "Categories"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
         ],
         onTap: (index) {
           // Handle navigation
