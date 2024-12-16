@@ -138,4 +138,3 @@ class _TaskDialogState extends State<TaskDialog> {
   }
 }
 
-
