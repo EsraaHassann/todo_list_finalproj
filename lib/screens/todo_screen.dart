@@ -117,9 +117,9 @@ class _ToDoScreenState extends State<ToDoScreen> {
                   }
 
                   final tasks = snapshot.data?.docs
-                          .map((doc) => Task.fromFirestore(doc))
-                          .toList() ??
-                      [];
+    .map((doc) => Task.fromFirestore(doc.data() as Map<String, dynamic>, doc.id))
+    .toList() ?? [];
+
 
                   // Filter tasks based on selected tab
                   final filteredTasks = tasks.where((task) {

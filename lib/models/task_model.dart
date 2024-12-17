@@ -8,12 +8,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore dependencies
 
 class Task {
+  final String id;
   final String title;
   final String description;
   final bool isCompleted;
   final Timestamp createdAt;
 
   Task({
+    required this.id,
     required this.title,
     required this.description,
     this.isCompleted = false,
@@ -21,9 +23,9 @@ class Task {
   });
 
   // Factory constructor for creating Task from Firestore data
-  factory Task.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>; // Convert doc data to a Map
+  factory Task.fromFirestore(Map<String, dynamic> data, String id) {
     return Task(
+      id: id,
       title: data['title'] ?? '', // Ensure data exists and provide fallback if needed
       description: data['description'] ?? '',
       isCompleted: data['isCompleted'] ?? false,
