@@ -3,6 +3,7 @@ import 'package:todo_list_finalproj/screens/DoneScreen.dart';
 import 'package:todo_list_finalproj/screens/home_screen.dart';
 import 'package:todo_list_finalproj/screens/ToDoScreen.dart'; // Add import for ToDoScreen
 import 'package:todo_list_finalproj/screens/TodaysTasksScreen.dart'; // Import TodaysTasksScreen
+import 'package:todo_list_finalproj/screens/AboutPage.dart'; // Import AboutPage
 
 class DrawerWidget extends StatelessWidget {
   @override
@@ -75,12 +76,15 @@ class DrawerWidget extends StatelessWidget {
               // Navigate to settings or other pages if necessary
             },
           ),
+          // Navigate to AboutPage when About is clicked
           ListTile(
             leading: const Icon(Icons.info),
             title: const Text('About'),
             onTap: () {
-              Navigator.pop(context); // Close the drawer
-              // Navigate to About page if needed
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const AboutPage()),
+              );
             },
           ),
         ],
