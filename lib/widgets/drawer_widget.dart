@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_finalproj/screens/DoneScreen.dart';
 import 'package:todo_list_finalproj/screens/home_screen.dart';
-import 'package:todo_list_finalproj/screens/ToDoScreen.dart'; // Add import for ToDoScreen
-import 'package:todo_list_finalproj/screens/TodaysTasksScreen.dart'; // Import TodaysTasksScreen
-import 'package:todo_list_finalproj/screens/AboutPage.dart'; // Import AboutPage
+import 'package:todo_list_finalproj/screens/ToDoScreen.dart';
+import 'package:todo_list_finalproj/screens/TodaysTasksScreen.dart';
+
+import 'package:todo_list_finalproj/screens/AboutPage.dart';
+import 'package:todo_list_finalproj/screens/settings_page.dart';
 
 class DrawerWidget extends StatelessWidget {
   @override
@@ -55,7 +57,6 @@ class DrawerWidget extends StatelessWidget {
               );
             },
           ),
-          // Add "Today's Progress" here
           ListTile(
             leading: const Icon(Icons.bar_chart),
             title: const Text("Today's Progress"),
@@ -63,8 +64,7 @@ class DrawerWidget extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        const TodaysTasksScreen()), // Navigate to TodaysTasksScreen
+                    builder: (context) => const TodaysTasksScreen()),
               );
             },
           ),
@@ -72,11 +72,12 @@ class DrawerWidget extends StatelessWidget {
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
             onTap: () {
-              Navigator.pop(context); // Close the drawer
-              // Navigate to settings or other pages if necessary
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsPage()),
+              );
             },
           ),
-          // Navigate to AboutPage when About is clicked
           ListTile(
             leading: const Icon(Icons.info),
             title: const Text('About'),
