@@ -4,6 +4,7 @@ import 'package:todo_list_finalproj/screens/home_screen.dart';
 import '../models/task_model.dart';
 import '../widgets/task_card.dart';
 import '../widgets/task_dialog.dart';
+import '../widgets/drawer_widget.dart'; // Import the Drawer widget
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DoneScreen extends StatefulWidget {
@@ -14,7 +15,6 @@ class DoneScreen extends StatefulWidget {
 }
 
 class _DoneScreenState extends State<DoneScreen> {
-
   void addTask(Task task) async {
     await FirebaseFirestore.instance.collection('tasks').add({
       'title': task.title,
@@ -90,72 +90,8 @@ class _DoneScreenState extends State<DoneScreen> {
         title: const Text("Done", style: TextStyle(color: Colors.white)),
         backgroundColor: const Color(0xFFFF69B4),
         elevation: 0,
-      ), drawer: Drawer(
-  child: ListView(
-    padding: EdgeInsets.zero,
-    children: [
-      const DrawerHeader(
-        decoration: BoxDecoration(
-          color: Color(0xFFFF69B4),
-        ),
-        child: Text(
-          'To-Do App',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
       ),
-      ListTile(
-        leading: const Icon(Icons.home),
-        title: const Text('Home'),
-        onTap: () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()),
-          );
-        },
-      ),
-      ListTile(
-        leading: const Icon(Icons.list),
-        title: const Text('To-Do List'),
-        onTap: () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const ToDoScreen()),
-          );
-        },
-      ),
-      ListTile(
-        leading: const Icon(Icons.check_circle),
-        title: const Text('Completed Tasks'),
-        onTap: () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const DoneScreen()), // Navigate to DoneScreen
-          );
-        },
-      ),
-      ListTile(
-        leading: const Icon(Icons.settings),
-        title: const Text('Settings'),
-        onTap: () {
-          Navigator.pop(context); // Close the drawer
-          // Navigate to settings or other pages
-        },
-      ),
-      ListTile(
-        leading: const Icon(Icons.info),
-        title: const Text('About'),
-        onTap: () {
-          Navigator.pop(context); // Close the drawer
-          // Navigate to About page if needed
-        },
-      ),
-    ],
-  ),
-),
+      drawer: DrawerWidget(), // Use DrawerWidget here
       backgroundColor: const Color(0xFFFFF0F5),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -177,7 +113,8 @@ class _DoneScreenState extends State<DoneScreen> {
               [];
 
           // Filter tasks that are completed
-          final filteredTasks = tasks.where((task) => task.isCompleted).toList();
+          final filteredTasks =
+              tasks.where((task) => task.isCompleted).toList();
 
           return ListView.builder(
             itemCount: filteredTasks.length,
@@ -194,7 +131,7 @@ class _DoneScreenState extends State<DoneScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showTaskDialog(),
+        onPressed: () => _showTaskDialog(), // Add new task
         backgroundColor: const Color(0xFFFF69B4),
         child: const Icon(Icons.add, color: Colors.white),
       ),
