@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list_finalproj/widgets/drawer_widget.dart'; // Import the DrawerWidget
 
 class TodaysTasksScreen extends StatelessWidget {
   const TodaysTasksScreen({Key? key}) : super(key: key);
@@ -13,6 +14,7 @@ class TodaysTasksScreen extends StatelessWidget {
         ),
         backgroundColor: const Color(0xFFFF69B4),
       ),
+      drawer: DrawerWidget(), // Add the drawer here
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
