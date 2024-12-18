@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list_finalproj/widgets/drawer_widget.dart'; // Import the DrawerWidget
 
 class AboutPage extends StatelessWidget {
   const AboutPage({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class AboutPage extends StatelessWidget {
         title: const Text("About Us"),
         backgroundColor: const Color(0xFFFF69B4),
       ),
+      drawer: DrawerWidget(), // Add the drawer here
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
