@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list_finalproj/screens/todo_screen.dart';
+import 'package:todo_list_finalproj/screens/ToDoScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
