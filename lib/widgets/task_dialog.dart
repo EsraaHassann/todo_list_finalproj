@@ -195,7 +195,7 @@ class _TaskDialogState extends State<TaskDialog> {
               TextFormField(
                 initialValue: title,
                 decoration: InputDecoration(
-                  hintText: 'UI Design',
+                  hintText: 'Task name',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
