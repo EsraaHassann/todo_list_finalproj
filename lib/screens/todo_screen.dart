@@ -85,12 +85,64 @@ class _ToDoScreenState extends State<ToDoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF0F5),
       appBar: AppBar(
         title: const Text("To-Do", style: TextStyle(color: Colors.white)),
         backgroundColor: const Color(0xFFFF69B4),
         elevation: 0,
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Color(0xFFFF69B4),
+              ),
+              child: Text(
+                'To-Do App',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.pop(context); // Go back to HomeScreen
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.list),
+              title: const Text('To-Do List'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                // Stay on the To-Do screen
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                // Navigate to settings or other pages
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.info),
+              title: const Text('About'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                // Navigate to About page if needed
+              },
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: const Color(0xFFFFF0F5),
       body: Column(
         children: [
           Row(
@@ -117,14 +169,16 @@ class _ToDoScreenState extends State<ToDoScreen> {
                   }
 
                   final tasks = snapshot.data?.docs
-    .map((doc) => Task.fromFirestore(doc.data() as Map<String, dynamic>, doc.id))
-    .toList() ?? [];
-
+                          .map((doc) => Task.fromFirestore(
+                              doc.data() as Map<String, dynamic>, doc.id))
+                          .toList() ??
+                      [];
 
                   // Filter tasks based on selected tab
                   final filteredTasks = tasks.where((task) {
                     if (selectedTab == 0) {
-                      return !task.isCompleted; // To-Do: Tasks that are not completed
+                      return !task
+                          .isCompleted; // To-Do: Tasks that are not completed
                     } else {
                       return task.isCompleted; // Done: Tasks that are completed
                     }
@@ -136,8 +190,10 @@ class _ToDoScreenState extends State<ToDoScreen> {
                       final task = filteredTasks[index];
                       return TaskCard(
                         task: task,
-                        onMark: () => markTask(task), // Mark task as done or undone
-                        onEdit: (task) => _showTaskDialog(task: task), // Edit task
+                        onMark: () =>
+                            markTask(task), // Mark task as done or undone
+                        onEdit: (task) =>
+                            _showTaskDialog(task: task), // Edit task
                         onDelete: () => deleteTask(task), // Delete task
                       );
                     },
