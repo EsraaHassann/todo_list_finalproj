@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list_finalproj/widgets/drawer_widget.dart'; // Import the DrawerWidget
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title: const Text('Settings'),
         backgroundColor: Color(0xFFFF69B4),
       ),
+      drawer: DrawerWidget(), // Add the drawer here
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
