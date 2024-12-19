@@ -22,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
-        backgroundColor: Color(0xFFFF69B4),
+        backgroundColor: Color.fromARGB(255, 136, 185, 189),
       ),
       drawer: DrawerWidget(), // Add the drawer here
       body: Padding(

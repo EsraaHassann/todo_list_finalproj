@@ -11,7 +11,7 @@ class TaskDetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(task.title),
-        backgroundColor: const Color(0xFFFF69B4),
+        backgroundColor: Color.fromARGB(255, 136, 185, 189),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),

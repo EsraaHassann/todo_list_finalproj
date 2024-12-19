@@ -13,8 +13,8 @@ class HomeScreen extends StatelessWidget {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFFFFC0CB),
-              Color(0xFFFF69B4)
+              Color.fromARGB(255, 136, 185, 189),
+              Color.fromARGB(255, 61, 142, 169)
             ], // Gradient from light pink to hot pink
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -81,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                   "Let's Start",
                   style: TextStyle(
                     fontSize: 20,
-                    color: Colors.pinkAccent,
+                    color: Color.fromARGB(255, 37, 59, 132),
                     fontWeight: FontWeight.bold,
                   ),
                 ),

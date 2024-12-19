@@ -12,7 +12,7 @@ class TodaysTasksScreen extends StatelessWidget {
           "Today's Overview",
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: const Color(0xFFFF69B4),
+        backgroundColor: Color.fromARGB(255, 136, 185, 189),
       ),
       drawer: DrawerWidget(), // Add the drawer here
       body: Padding(
@@ -75,19 +75,19 @@ class TodaysTasksScreen extends StatelessWidget {
                 children: [
                   ListTile(
                     leading: const Icon(Icons.check_box_outline_blank,
-                        color: Colors.pinkAccent),
+                        color: Color.fromARGB(255, 92, 106, 107)),
                     title: const Text("Task 1: Complete Flutter UI"),
                     subtitle: const Text("Deadline: 5:00 PM"),
                   ),
                   ListTile(
-                    leading:
-                        const Icon(Icons.check_box, color: Colors.pinkAccent),
+                    leading: const Icon(Icons.check_box,
+                        color: Color.fromARGB(255, 92, 106, 107)),
                     title: const Text("Task 2: Team Meeting"),
                     subtitle: const Text("Completed"),
                   ),
                   ListTile(
                     leading: const Icon(Icons.check_box_outline_blank,
-                        color: Colors.pinkAccent),
+                        color: Color.fromARGB(255, 92, 106, 107)),
                     title: const Text("Task 3: Review PRs"),
                     subtitle: const Text("Deadline: 7:00 PM"),
                   ),
