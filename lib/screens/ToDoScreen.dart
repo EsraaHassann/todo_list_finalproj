@@ -89,11 +89,11 @@ class _ToDoScreenState extends State<ToDoScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("To-Do", style: TextStyle(color: Colors.white)),
-        backgroundColor: const Color(0xFFFF69B4),
+        backgroundColor: Color.fromARGB(255, 136, 185, 189),
         elevation: 0,
       ),
       drawer: DrawerWidget(), // Use the new DrawerWidget here
-      backgroundColor: const Color(0xFFFFF0F5),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('tasks')
@@ -133,7 +133,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showTaskDialog(), // Add new task
-        backgroundColor: const Color(0xFFFF69B4),
+        backgroundColor: Color.fromARGB(255, 136, 185, 189),
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );

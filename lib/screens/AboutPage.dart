@@ -9,7 +9,7 @@ class AboutPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("About Us"),
-        backgroundColor: const Color(0xFFFF69B4),
+        backgroundColor: Color.fromARGB(255, 136, 185, 189),
       ),
       drawer: DrawerWidget(), // Add the drawer here
       body: SingleChildScrollView(
@@ -24,7 +24,7 @@ class AboutPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.pinkAccent,
+                  color: Color.fromARGB(255, 136, 185, 189),
                 ),
               ),
               const SizedBox(height: 20),
@@ -64,7 +64,7 @@ class AboutPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.pinkAccent,
+                  color: Color.fromARGB(255, 136, 185, 189),
                 ),
               ),
               const SizedBox(height: 10),
@@ -125,7 +125,7 @@ class _FeatureCard extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.pinkAccent,
+                color: Color.fromARGB(255, 136, 185, 189),
               ),
             ),
             const SizedBox(height: 10),
