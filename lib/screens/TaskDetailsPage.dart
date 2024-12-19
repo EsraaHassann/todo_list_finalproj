@@ -11,7 +11,7 @@ class TaskDetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(task.title),
-        backgroundColor: Color.fromARGB(255, 136, 185, 189),
+        backgroundColor: const Color.fromARGB(255, 136, 185, 189),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -25,7 +25,7 @@ class TaskDetailsPage extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.pinkAccent,
+                  color: Color.fromARGB(255, 136, 185, 189),
                 ),
               ),
             ),
@@ -33,7 +33,7 @@ class TaskDetailsPage extends StatelessWidget {
 
             // Task Description
             Card(
-              color: const Color(0xFFF8E1F4),
+              color: const Color.fromARGB(255, 249, 249, 249),
               elevation: 4,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
@@ -48,7 +48,7 @@ class TaskDetailsPage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.pinkAccent,
+                        color: Color.fromARGB(255, 136, 185, 189),
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -68,7 +68,8 @@ class TaskDetailsPage extends StatelessWidget {
             // Task Date
             Row(
               children: [
-                const Icon(Icons.date_range, color: Colors.pinkAccent),
+                const Icon(Icons.date_range,
+                    color: Color.fromARGB(255, 136, 185, 189)),
                 const SizedBox(width: 10),
                 Text(
                   "Date: ${task.startDate}", // `startDate` is now used as a general `date`
@@ -81,7 +82,8 @@ class TaskDetailsPage extends StatelessWidget {
             // Start and End Times
             Row(
               children: [
-                const Icon(Icons.access_time, color: Colors.pinkAccent),
+                const Icon(Icons.access_time,
+                    color: Color.fromARGB(255, 136, 185, 189)),
                 const SizedBox(width: 10),
                 Text(
                   "Start Time: ${task.startTime}",
@@ -92,7 +94,8 @@ class TaskDetailsPage extends StatelessWidget {
             const SizedBox(height: 10),
             Row(
               children: [
-                const Icon(Icons.access_time, color: Colors.pinkAccent),
+                const Icon(Icons.access_time,
+                    color: Color.fromARGB(255, 136, 185, 189)),
                 const SizedBox(width: 10),
                 Text(
                   "End Time: ${task.endTime}",
@@ -105,7 +108,8 @@ class TaskDetailsPage extends StatelessWidget {
             // Task Category
             Row(
               children: [
-                const Icon(Icons.category, color: Colors.pinkAccent),
+                const Icon(Icons.category,
+                    color: Color.fromARGB(255, 136, 185, 189)),
                 const SizedBox(width: 10),
                 Text(
                   "Category: ${task.id}", // Replace `task.id` with the category if available
@@ -118,8 +122,12 @@ class TaskDetailsPage extends StatelessWidget {
             // Status
             Row(
               children: [
-                const Icon(Icons.check_circle_outline,
-                    color: Colors.pinkAccent),
+                Icon(
+                  task.isCompleted
+                      ? Icons.check_circle_outline
+                      : Icons.cancel_outlined, // Conditional Icon
+                  color: task.isCompleted ? Colors.green : Colors.redAccent,
+                ),
                 const SizedBox(width: 10),
                 Text(
                   task.isCompleted ? "Completed" : "Incomplete",
@@ -140,7 +148,7 @@ class TaskDetailsPage extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFFF69B4),
+                  backgroundColor: const Color.fromARGB(255, 136, 185, 189),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
