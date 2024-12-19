@@ -16,7 +16,7 @@ class DrawerWidget extends StatelessWidget {
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: Color(0xFFFF69B4),
+              color: Color.fromARGB(255, 131, 148, 151),
             ),
             child: Text(
               'To-Do App',
