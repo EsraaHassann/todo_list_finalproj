@@ -100,157 +100,156 @@
 //   }
 // }
 
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:todo_list_finalproj/screens/todo_screen.dart';
-import 'package:todo_list_finalproj/widgets/task_card.dart';
-import '../models/task_model.dart';
+// import 'package:flutter/material.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:todo_list_finalproj/widgets/task_card.dart';
+// import '../models/task_model.dart';
 
-class Categories extends StatefulWidget {
-  final String title;
+// class Categories extends StatefulWidget {
+//   final String title;
 
-  const Categories({Key? key, required this.title}) : super(key: key);
+//   const Categories({Key? key, required this.title}) : super(key: key);
 
-  @override
-  _CategoriesState createState() => _CategoriesState();
-}
+//   @override
+//   _CategoriesState createState() => _CategoriesState();
+// }
 
-class _CategoriesState extends State<Categories> {
-  List<Task> tasks = [];
+// class _CategoriesState extends State<Categories> {
+//   List<Task> tasks = [];
 
-  // Fetch tasks from Firestore
-  void fetchTasks() async {
-    try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('tasks').get();
-      setState(() {
-        tasks = querySnapshot.docs.map((doc) {
-          return Task.fromFirestore(doc.data() as Map<String, dynamic>, doc.id); // Convert Firestore data into Task objects
-        }).toList();
-      });
-    } catch (e) {
-      print("Error fetching tasks: $e");
-    }
-  }
+//   // Fetch tasks from Firestore
+//   void fetchTasks() async {
+//     try {
+//       QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('tasks').get();
+//       setState(() {
+//         tasks = querySnapshot.docs.map((doc) {
+//           return Task.fromFirestore(doc.data() as Map<String, dynamic>, doc.id); // Convert Firestore data into Task objects
+//         }).toList();
+//       });
+//     } catch (e) {
+//       print("Error fetching tasks: $e");
+//     }
+//   }
 
-  @override
-  void initState() {
-    super.initState();
-    fetchTasks();  // Fetch tasks when the widget is initialized
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     fetchTasks();  // Fetch tasks when the widget is initialized
+//   }
 
-  // Task actions
-  void markTask(Task task) {
-    print('Marked task: ${task.title}');
-  }
+//   // Task actions
+//   void markTask(Task task) {
+//     print('Marked task: ${task.title}');
+//   }
 
-  void deleteTask(Task task) async {
-    try {
-      // Delete the task from Firestore
-      await FirebaseFirestore.instance.collection('tasks').doc(task.id).delete();
+//   void deleteTask(Task task) async {
+//     try {
+//       // Delete the task from Firestore
+//       await FirebaseFirestore.instance.collection('tasks').doc(task.id).delete();
 
-      // Remove the task from the local list
-      setState(() {
-        tasks.removeWhere((t) => t.id == task.id);
-      });
-    } catch (e) {
-      print("Error deleting task: $e");
-    }
-  }
+//       // Remove the task from the local list
+//       setState(() {
+//         tasks.removeWhere((t) => t.id == task.id);
+//       });
+//     } catch (e) {
+//       print("Error deleting task: $e");
+//     }
+//   }
 
-  void editTask(Task task) {
-    print('Edit task: ${task.title}');
-  }
+//   void editTask(Task task) {
+//     print('Edit task: ${task.title}');
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.task_alt, color: const Color.fromARGB(194, 99, 99, 1), size: 24),
-            SizedBox(width: 8),
-            Text(
-              widget.title,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: const Color.fromRGBO(194, 99, 99, 1),
-              ),
-            ),
-          ],
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(icon: Icon(Icons.search), onPressed: () {}),
-          IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
-        ],
-      ),
-      body: Column(
-        children: [
-          // Category Tabs
-          Container(
-            height: 50,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Chip(label: Text("All Tasks")),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Chip(label: Text("Work")),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Chip(label: Text("Personal")),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Chip(label: Text("Urgent")),
-                ),
-              ],
-            ),
-          ),
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Row(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             Icon(Icons.task_alt, color: const Color.fromARGB(194, 99, 99, 1), size: 24),
+//             SizedBox(width: 8),
+//             Text(
+//               widget.title,
+//               style: TextStyle(
+//                 fontSize: 20,
+//                 fontWeight: FontWeight.bold,
+//                 color: const Color.fromRGBO(194, 99, 99, 1),
+//               ),
+//             ),
+//           ],
+//         ),
+//         centerTitle: true,
+//         actions: [
+//           IconButton(icon: Icon(Icons.search), onPressed: () {}),
+//           IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
+//         ],
+//       ),
+//       body: Column(
+//         children: [
+//           // Category Tabs
+//           Container(
+//             height: 50,
+//             child: ListView(
+//               scrollDirection: Axis.horizontal,
+//               children: [
+//                 Padding(
+//                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+//                   child: Chip(label: Text("All Tasks")),
+//                 ),
+//                 Padding(
+//                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+//                   child: Chip(label: Text("Work")),
+//                 ),
+//                 Padding(
+//                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+//                   child: Chip(label: Text("Personal")),
+//                 ),
+//                 Padding(
+//                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+//                   child: Chip(label: Text("Urgent")),
+//                 ),
+//               ],
+//             ),
+//           ),
 
-          // Task List (using TaskCard widget)
-          Expanded(
-            child: tasks.isEmpty
-                ? Center(child: CircularProgressIndicator()) // Show loading spinner if tasks are not yet loaded
-                : ListView.builder(
-                    itemCount: tasks.length,
-                    itemBuilder: (context, index) {
-                      return TaskCard(
-                        task: tasks[index],
-                        onMark: () => markTask(tasks[index]),
-                        onEdit: (task) => editTask(task),
-                        onDelete: () => deleteTask(tasks[index]),
-                      );
-                    },
-                  ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ToDoScreen()),
-          );
-        },
-        child: Icon(Icons.add),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.category), label: "Categories"),
-        ],
-        onTap: (index) {
-          // Handle navigation
-        },
-      ),
-    );
-  }
-}
+//           // Task List (using TaskCard widget)
+//           Expanded(
+//             child: tasks.isEmpty
+//                 ? Center(child: CircularProgressIndicator()) // Show loading spinner if tasks are not yet loaded
+//                 : ListView.builder(
+//                     itemCount: tasks.length,
+//                     itemBuilder: (context, index) {
+//                       return TaskCard(
+//                         task: tasks[index],
+//                         onMark: () => markTask(tasks[index]),
+//                         onEdit: (task) => editTask(task),
+//                         onDelete: () => deleteTask(tasks[index]),
+//                       );
+//                     },
+//                   ),
+//           ),
+//         ],
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: () {
+//           Navigator.push(
+//             context,
+//             MaterialPageRoute(builder: (context) => const ToDoScreen()),
+//           );
+//         },
+//         child: Icon(Icons.add),
+//       ),
+//       bottomNavigationBar: BottomNavigationBar(
+//         items: [
+//           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+//           BottomNavigationBarItem(icon: Icon(Icons.category), label: "Categories"),
+//         ],
+//         onTap: (index) {
+//           // Handle navigation
+//         },
+//       ),
+//     );
+//   }
+// }
 

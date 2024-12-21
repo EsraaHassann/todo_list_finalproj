@@ -46,6 +46,7 @@ class TaskCard extends StatelessWidget {
 }*/
 
 import 'package:flutter/material.dart';
+import 'package:todo_list_finalproj/screens/TaskDetailsPage.dart';
 import '../models/task_model.dart';
 
 class TaskCard extends StatelessWidget {
@@ -87,19 +88,27 @@ class TaskCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () => onEdit(task), // Trigger onEdit when the icon is pressed
+              icon: const Icon(Icons.edit),
+              onPressed: () => onEdit(task),
             ),
             IconButton(
               icon: Icon(task.isCompleted ? Icons.undo : Icons.check),
-              onPressed: onMark, // Mark the task as completed or revert
+              onPressed: onMark,
             ),
             IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: onDelete, // Delete the task
+              icon: const Icon(Icons.delete),
+              onPressed: onDelete,
             ),
           ],
         ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TaskDetailsPage(task: task),
+            ),
+          );
+        },
       ),
     );
   }

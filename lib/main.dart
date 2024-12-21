@@ -1,14 +1,23 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
-import 'firebase_options.dart'; 
-
+import 'firebase_options.dart'; // Make sure to import this generated file
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform, // This uses the options generated for the platform (e.g., web)
-  );
+
+  // Initialize Firebase
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions
+          .currentPlatform, // Use the correct Firebase options for the platform
+    );
+  } catch (e) {
+    print(
+        "Firebase initialization error: $e"); // Catch any initialization errors
+  }
+
+  // Run the app
   runApp(MyApp());
 }
 
@@ -21,7 +30,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'To-Do App',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const HomeScreen(),
+      home: const HomeScreen(), // Home screen is set as the initial screen
     );
   }
 }
