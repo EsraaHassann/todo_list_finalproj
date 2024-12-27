@@ -1,7 +1,4 @@
-// to_do_screen.dart
 import 'package:flutter/material.dart';
-import 'package:todo_list_finalproj/screens/DoneScreen.dart';
-import 'package:todo_list_finalproj/screens/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/task_model.dart';
 import '../widgets/task_card.dart';
@@ -16,13 +13,21 @@ class ToDoScreen extends StatefulWidget {
 }
 
 class _ToDoScreenState extends State<ToDoScreen> {
+  // This function will add the task to Firestore and update the state
   void addTask(Task task) async {
+    // Add task to Firebase Firestore
     await FirebaseFirestore.instance.collection('tasks').add({
       'title': task.title,
       'description': task.description,
       'isCompleted': false,
-      'createdAt': FieldValue.serverTimestamp(),
+      'startDate': task.startDate,
+      'startTime': task.startTime,
+      'endTime': task.endTime,
+      'createdAt': FieldValue.serverTimestamp(),  // Add a timestamp field
     });
+
+    // After adding the task to Firestore, trigger a UI update
+    setState(() {});
   }
 
   void editTask(Task oldTask, Task newTask) async {
@@ -97,7 +102,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('tasks')
-            .orderBy('createdAt', descending: true)
+            .orderBy('createdAt', descending: true) // Ensure tasks are ordered
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -110,7 +115,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
           final tasks = snapshot.data?.docs
                   .map((doc) => Task.fromFirestore(
                       doc.data() as Map<String, dynamic>, doc.id))
-                  .toList() ??
+                  .toList() ?? 
               [];
 
           // Filter tasks that are not completed
