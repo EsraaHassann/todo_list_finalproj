@@ -14,20 +14,7 @@ class TaskDialog extends StatefulWidget {
   _TaskDialogState createState() => _TaskDialogState();
 }
 
-class _TaskDialogState extends State<TaskDialog> {
-  final _formKey = GlobalKey<FormState>();
-  late stt.SpeechToText _speech;
-  bool _isListening = false;
-
-  String title = '';
-  String description = '';
-  String? selectedCategory;
-
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _startTimeController = TextEditingController();
-  final TextEditingController _endTimeController = TextEditingController();
+ // Added deadline controller
 
   @override
   void initState() {
@@ -42,37 +29,39 @@ class _TaskDialogState extends State<TaskDialog> {
       _dateController.text = widget.task!.startDate;
       _startTimeController.text = widget.task!.startTime;
       _endTimeController.text = widget.task!.endTime;
+
+      if (widget.task!.deadline != null) {
+        _deadlineController.text = widget.task!.deadline!.toDate().toString();
+      }
     }
   }
 
- void _listen(TextEditingController controller) async {
-  if (!_isListening) {
-    bool available = await _speech.initialize(
-      onStatus: (status) => print('Speech status: $status'),
-      onError: (error) => print('Speech error: $error'),
-    );
-    if (available) {
-      setState(() => _isListening = true);
-      _speech.listen(
-        onResult: (result) {
-          setState(() {
-            // Get the recognized words and only append if they are new
-            String newWords = result.recognizedWords.trim();
-            if (newWords.isNotEmpty && newWords != controller.text.trim()) {
-              controller.text = newWords;  // Set the field to the latest recognized words
-            }
-          });
-        },
+  void _listen(TextEditingController controller) async {
+    if (!_isListening) {
+      bool available = await _speech.initialize(
+        onStatus: (status) => print('Speech status: $status'),
+        onError: (error) => print('Speech error: $error'),
       );
+      if (available) {
+        setState(() => _isListening = true);
+        _speech.listen(
+          onResult: (result) {
+            setState(() {
+              String newWords = result.recognizedWords.trim();
+              if (newWords.isNotEmpty && newWords != controller.text.trim()) {
+                controller.text = newWords;
+              }
+            });
+          },
+        );
+      } else {
+        print('Speech recognition not available.');
+      }
     } else {
-      print('Speech recognition not available.');
+      setState(() => _isListening = false);
+      _speech.stop();
     }
-  } else {
-    setState(() => _isListening = false);
-    _speech.stop();
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -111,6 +100,12 @@ class _TaskDialogState extends State<TaskDialog> {
                 controller: _endTimeController,
                 onTap: () => _pickTime(_endTimeController),
               ),
+              const SizedBox(height: 10),
+              _buildDateTimeField(
+                label: 'Deadline',
+                controller: _deadlineController,
+                onTap: _pickDeadline,
+              ),
             ],
           ),
         ),
@@ -127,6 +122,9 @@ class _TaskDialogState extends State<TaskDialog> {
                 startTime: _startTimeController.text,
                 endTime: _endTimeController.text,
                 createdAt: Timestamp.now(),
+                deadline: _deadlineController.text.isNotEmpty
+                    ? Timestamp.fromDate(DateTime.parse(_deadlineController.text))
+                    : null,
               );
               widget.onSave(task);
               Navigator.pop(context);
@@ -200,6 +198,35 @@ class _TaskDialogState extends State<TaskDialog> {
       setState(() {
         controller.text = picked.format(context);
       });
+    }
+  }
+
+  Future<void> _pickDeadline() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+
+    if (pickedDate != null) {
+      TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (pickedTime != null) {
+        DateTime combined = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+        setState(() {
+          _deadlineController.text = combined.toString();
+        });
+      }
     }
   }
 }
