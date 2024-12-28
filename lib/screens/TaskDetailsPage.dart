@@ -106,17 +106,17 @@ class TaskDetailsPage extends StatelessWidget {
             const SizedBox(height: 20),
 
             // Task Category
-            Row(
-              children: [
-                const Icon(Icons.category,
-                    color: Color.fromARGB(255, 136, 185, 189)),
-                const SizedBox(width: 10),
-                Text(
-                  "Category: ${task.id}", // Replace `task.id` with the category if available
-                  style: const TextStyle(fontSize: 18, color: Colors.black87),
-                ),
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     const Icon(Icons.category,
+            //         color: Color.fromARGB(255, 136, 185, 189)),
+            //     const SizedBox(width: 10),
+            //     Text(
+            //       "Category: ${task.id}", // Replace `task.id` with the category if available
+            //       style: const TextStyle(fontSize: 18, color: Colors.black87),
+            //     ),
+            //   ],
+            // ),
             const SizedBox(height: 20),
 
             // Status

@@ -130,11 +130,11 @@ class _DoneScreenState extends State<DoneScreen> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showTaskDialog(), // Add new task
-        backgroundColor: Color.fromARGB(255, 136, 185, 189),
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => _showTaskDialog(), // Add new task
+      //   backgroundColor: Color.fromARGB(255, 136, 185, 189),
+      //   child: const Icon(Icons.add, color: Colors.white),
+      // ),
     );
   }
 }

@@ -4,11 +4,16 @@ allprojects {
         mavenCentral()
     }
     dependencies {
-    classpath 'com.android.tools.build:gradle:7.1.2'
+    classpath 'com.android.tools.build:gradle:8.1.1' // Ensure a valid version
     classpath 'com.google.gms:google-services:4.3.15' // Add this line
 }
 }
-
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
 rootProject.buildDir = "../build"
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
