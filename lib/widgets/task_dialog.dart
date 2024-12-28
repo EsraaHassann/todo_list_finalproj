@@ -4,11 +4,10 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 import '../models/task_model.dart';
 
-class TaskDialog extends StatefulWidget {
-  final Task? task;
-  final Function(Task) onSave;
 
-  
+
+  const TaskDialog({Key? key, this.task, required this.onSave}) : super(key: key);
+
   @override
   _TaskDialogState createState() => _TaskDialogState();
 }
