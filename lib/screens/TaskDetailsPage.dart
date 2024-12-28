@@ -9,158 +9,152 @@ class TaskDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(task.title),
-        backgroundColor: const Color.fromARGB(255, 136, 185, 189),
+      body: Stack(
+        children: [
+          // Background
+          Column(
+            children: [
+              Container(
+                height: 200,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 136, 185, 189),
+                      Color.fromARGB(255, 194, 222, 224),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  color: const Color.fromARGB(255, 245, 245, 245),
+                ),
+              ),
+            ],
+          ),
+
+          // Content
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  // Task Title Card
+                  _buildDetailCard(
+                    title: "Task Title",
+                    icon: Icons.task,
+                    content: task.title,
+                  ),
+
+                  // Task Date Card
+                  _buildDetailCard(
+                    title: "Task Date",
+                    icon: Icons.calendar_today,
+                    content: task.startDate,
+                  ),
+
+                  // Description Card
+                  _buildDetailCard(
+                    title: "Description",
+                    icon: Icons.description,
+                    content: task.description,
+                  ),
+
+                  // Timing Card
+                  _buildDetailCard(
+                    title: "Timing",
+                    icon: Icons.access_time,
+                    content:
+                        "Start Time: ${task.startTime}\nEnd Time: ${task.endTime}",
+                  ),
+
+                  // Status Card
+                  _buildDetailCard(
+                    title: "Status",
+                    icon: task.isCompleted
+                        ? Icons.check_circle_outline
+                        : Icons.cancel_outlined,
+                    content: task.isCompleted ? "Completed" : "Incomplete",
+                    iconColor:
+                        task.isCompleted ? Colors.green : Colors.redAccent,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
+
+      // Navigation
+      bottomNavigationBar: BottomAppBar(
+        elevation: 10,
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          child: ElevatedButton.icon(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back),
+            label: const Text("Return to Tasks"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color.fromARGB(255, 136, 185, 189),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              elevation: 5,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Reusable Card Builder for Details
+  Widget _buildDetailCard({
+    required String title,
+    required IconData icon,
+    required String content,
+    Color iconColor = const Color.fromARGB(255, 136, 185, 189),
+  }) {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      margin: const EdgeInsets.only(
+          bottom: 8), // Reduced margin to minimize spacing
+      child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Task Title
-            Center(
-              child: Text(
-                task.title,
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 136, 185, 189),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            // Task Description
-            Card(
-              color: const Color.fromARGB(255, 249, 249, 249),
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Description:",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 136, 185, 189),
-                      ),
+            Icon(icon, size: 30, color: iconColor),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
                     ),
-                    const SizedBox(height: 10),
-                    Text(
-                      task.description,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black87,
-                      ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    content,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.black87,
                     ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            // Task Date
-            Row(
-              children: [
-                const Icon(Icons.date_range,
-                    color: Color.fromARGB(255, 136, 185, 189)),
-                const SizedBox(width: 10),
-                Text(
-                  "Date: ${task.startDate}", // `startDate` is now used as a general `date`
-                  style: const TextStyle(fontSize: 18, color: Colors.black87),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-
-            // Start and End Times
-            Row(
-              children: [
-                const Icon(Icons.access_time,
-                    color: Color.fromARGB(255, 136, 185, 189)),
-                const SizedBox(width: 10),
-                Text(
-                  "Start Time: ${task.startTime}",
-                  style: const TextStyle(fontSize: 18, color: Colors.black87),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                const Icon(Icons.access_time,
-                    color: Color.fromARGB(255, 136, 185, 189)),
-                const SizedBox(width: 10),
-                Text(
-                  "End Time: ${task.endTime}",
-                  style: const TextStyle(fontSize: 18, color: Colors.black87),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-
-            // Task Category
-            // Row(
-            //   children: [
-            //     const Icon(Icons.category,
-            //         color: Color.fromARGB(255, 136, 185, 189)),
-            //     const SizedBox(width: 10),
-            //     Text(
-            //       "Category: ${task.id}", // Replace `task.id` with the category if available
-            //       style: const TextStyle(fontSize: 18, color: Colors.black87),
-            //     ),
-            //   ],
-            // ),
-            const SizedBox(height: 20),
-
-            // Status
-            Row(
-              children: [
-                Icon(
-                  task.isCompleted
-                      ? Icons.check_circle_outline
-                      : Icons.cancel_outlined, // Conditional Icon
-                  color: task.isCompleted ? Colors.green : Colors.redAccent,
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  task.isCompleted ? "Completed" : "Incomplete",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: task.isCompleted ? Colors.green : Colors.redAccent,
-                    fontWeight: FontWeight.w500,
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-
-            // Action Buttons
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 136, 185, 189),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
-                  ),
-                ),
-                child: const Text(
-                  "Back to Tasks",
-                  style: TextStyle(fontSize: 18),
-                ),
+                ],
               ),
             ),
           ],
