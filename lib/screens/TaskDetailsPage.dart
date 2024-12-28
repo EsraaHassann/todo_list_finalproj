@@ -9,6 +9,12 @@ class TaskDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title:
+            const Text("Task Details", style: TextStyle(color: Colors.white)),
+        backgroundColor: const Color.fromARGB(255, 136, 185, 189),
+        elevation: 0,
+      ),
       body: Stack(
         children: [
           // Background
@@ -89,23 +95,35 @@ class TaskDetailsPage extends StatelessWidget {
 
       // Navigation
       bottomNavigationBar: BottomAppBar(
-        elevation: 10,
+        elevation: 0, // No shadow to maintain the clean look
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          padding: const EdgeInsets.symmetric(
+              horizontal: 16, vertical: 6), // Reduced vertical padding
           child: ElevatedButton.icon(
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(Icons.arrow_back),
-            label: const Text("Return to Tasks"),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 136, 185, 189),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+            icon: const Icon(Icons.arrow_back,
+                color: Colors.white), // White icon for better contrast
+            label: const Text(
+              "Return to Tasks",
+              style: TextStyle(
+                color: Colors.white, // White text color for contrast
+                fontWeight: FontWeight.bold, // Bold text to make it stand out
+                fontSize: 14, // Smaller text size
               ),
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              elevation: 5,
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color.fromARGB(
+                  255, 136, 185, 189), // Soft background color
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                    30), // Rounded corners for a softer appearance
+              ),
+              padding: const EdgeInsets.symmetric(
+                  vertical: 8), // Reduced padding to make the button smaller
+              elevation: 3, // Reduced shadow for a smaller button
             ),
           ),
         ),
