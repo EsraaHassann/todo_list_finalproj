@@ -6,8 +6,7 @@ version: 0.1.0
 environment:
   sdk: ^3.5.3
 
-dependencies:
-  speech_to_text: ^5.7.0 # Use the latest version
+
 
   flutter:
     sdk: flutter
