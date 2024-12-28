@@ -28,7 +28,6 @@ class _TaskDialogState extends State<TaskDialog> {
   final TextEditingController _endTimeController = TextEditingController();
   final TextEditingController _deadlineController = TextEditingController();
 
- // Added deadline controller
 
   @override
   void initState() {
@@ -129,7 +128,7 @@ class _TaskDialogState extends State<TaskDialog> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               final task = Task(
-                id: '', // Firestore will auto-generate this
+                id: '', 
                 title: _titleController.text,
                 description: _descriptionController.text,
                 startDate: _dateController.text,
