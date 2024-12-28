@@ -14,6 +14,14 @@ class TaskDialog extends StatefulWidget {
   _TaskDialogState createState() => _TaskDialogState();
 }
 
+
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _startTimeController = TextEditingController();
+  final TextEditingController _endTimeController = TextEditingController();
+  final TextEditingController _deadlineController = TextEditingController();
+
  // Added deadline controller
 
   @override
