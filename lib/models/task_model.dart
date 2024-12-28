@@ -58,7 +58,7 @@ class Task {
   final String startDate;
   final String startTime;
   final String endTime;
-  final Timestamp? deadline; 
+  final Timestamp? deadline;
 
   Task({
     required this.id,
@@ -69,20 +69,27 @@ class Task {
     required this.startDate,
     required this.startTime,
     required this.endTime,
-    this.deadline, 
+    this.deadline,
   });
 
   factory Task.fromFirestore(Map<String, dynamic> data, String id) {
+    print('createdAt: ${data['createdAt']}, type: ${data['createdAt'].runtimeType}');
+    print('deadline: ${data['deadline']}, type: ${data['deadline'].runtimeType}');
+
     return Task(
       id: id,
       title: data['title'] ?? '',
       description: data['description'] ?? '',
       isCompleted: data['isCompleted'] ?? false,
-      createdAt: data['createdAt'] as Timestamp,
+      createdAt: data['createdAt'] is Timestamp
+          ? data['createdAt'] as Timestamp
+          : Timestamp.now(),
       startDate: data['startDate'] ?? '',
       startTime: data['startTime'] ?? '',
       endTime: data['endTime'] ?? '',
-      deadline: data['deadline'], 
+      deadline: data['deadline'] is Timestamp
+          ? data['deadline'] as Timestamp
+          : null,
     );
   }
 
@@ -95,7 +102,11 @@ class Task {
       'startDate': startDate,
       'startTime': startTime,
       'endTime': endTime,
-      'deadline': deadline, 
+      'deadline': deadline,
     };
   }
 }
+
+  
+
+

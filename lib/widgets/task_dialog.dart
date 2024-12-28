@@ -13,6 +13,7 @@ class TaskDialog extends StatefulWidget {
   @override
   _TaskDialogState createState() => _TaskDialogState();
 }
+
 class _TaskDialogState extends State<TaskDialog> {
   final _formKey = GlobalKey<FormState>();
   late stt.SpeechToText _speech;
@@ -20,6 +21,7 @@ class _TaskDialogState extends State<TaskDialog> {
 
   String title = '';
   String description = '';
+  Timestamp? deadline;
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -27,7 +29,6 @@ class _TaskDialogState extends State<TaskDialog> {
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
   final TextEditingController _deadlineController = TextEditingController();
-
 
   @override
   void initState() {
@@ -37,14 +38,16 @@ class _TaskDialogState extends State<TaskDialog> {
     if (widget.task != null) {
       title = widget.task!.title;
       description = widget.task!.description;
+      deadline = widget.task!.deadline;
+
       _titleController.text = title;
       _descriptionController.text = description;
       _dateController.text = widget.task!.startDate;
       _startTimeController.text = widget.task!.startTime;
       _endTimeController.text = widget.task!.endTime;
 
-      if (widget.task!.deadline != null) {
-        _deadlineController.text = widget.task!.deadline!.toDate().toString();
+      if (deadline != null) {
+        _deadlineController.text = deadline!.toDate().toIso8601String();
       }
     }
   }
@@ -128,7 +131,7 @@ class _TaskDialogState extends State<TaskDialog> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               final task = Task(
-                id: '', 
+                id: '',
                 title: _titleController.text,
                 description: _descriptionController.text,
                 startDate: _dateController.text,
@@ -215,31 +218,17 @@ class _TaskDialogState extends State<TaskDialog> {
   }
 
   Future<void> _pickDeadline() async {
-    DateTime? pickedDate = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
-
-    if (pickedDate != null) {
-      TimeOfDay? pickedTime = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.now(),
-      );
-
-      if (pickedTime != null) {
-        DateTime combined = DateTime(
-          pickedDate.year,
-          pickedDate.month,
-          pickedDate.day,
-          pickedTime.hour,
-          pickedTime.minute,
-        );
-        setState(() {
-          _deadlineController.text = combined.toString();
-        });
-      }
+    if (picked != null) {
+      setState(() {
+        _deadlineController.text = picked.toIso8601String();
+      });
     }
   }
 }
+
