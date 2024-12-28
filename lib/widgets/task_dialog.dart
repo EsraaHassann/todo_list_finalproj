@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
-
 import '../models/task_model.dart';
 
 class TaskDialog extends StatefulWidget {
@@ -21,14 +20,14 @@ class _TaskDialogState extends State<TaskDialog> {
 
   String title = '';
   String description = '';
-  Timestamp? deadline;
+  String deadline = ''; // New field for deadline
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
-  final TextEditingController _deadlineController = TextEditingController();
+  final TextEditingController _deadlineController = TextEditingController(); // Controller for deadline
 
   @override
   void initState() {
@@ -38,17 +37,12 @@ class _TaskDialogState extends State<TaskDialog> {
     if (widget.task != null) {
       title = widget.task!.title;
       description = widget.task!.description;
-      deadline = widget.task!.deadline;
-
       _titleController.text = title;
       _descriptionController.text = description;
       _dateController.text = widget.task!.startDate;
       _startTimeController.text = widget.task!.startTime;
       _endTimeController.text = widget.task!.endTime;
-
-      if (deadline != null) {
-        _deadlineController.text = deadline!.toDate().toIso8601String();
-      }
+      _deadlineController.text = widget.task!.deadline; // Populate the deadline field if editing
     }
   }
 
@@ -76,6 +70,57 @@ class _TaskDialogState extends State<TaskDialog> {
     } else {
       setState(() => _isListening = false);
       _speech.stop();
+    }
+  }
+
+  Future<void> _pickDate() async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+    if (picked != null) {
+      setState(() {
+        _dateController.text = "${picked.day}/${picked.month}/${picked.year}";
+      });
+    }
+  }
+
+  Future<void> _pickTime(TextEditingController controller) async {
+    TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null) {
+      setState(() {
+        controller.text = picked.format(context);
+      });
+    }
+  }
+
+  Future<void> _pickDeadline() async {
+    // Show Date Picker
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+
+    if (pickedDate != null) {
+      // Show Time Picker
+      TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (pickedTime != null) {
+        setState(() {
+          _deadlineController.text =
+              "${pickedDate.day}/${pickedDate.month}/${pickedDate.year} ${pickedTime.format(context)}";
+        });
+      }
     }
   }
 
@@ -119,8 +164,8 @@ class _TaskDialogState extends State<TaskDialog> {
               const SizedBox(height: 10),
               _buildDateTimeField(
                 label: 'Deadline',
-                controller: _deadlineController,
-                onTap: _pickDeadline,
+                controller: _deadlineController, // New field for deadline
+                onTap: _pickDeadline, // Call the combined picker for deadline
               ),
             ],
           ),
@@ -131,16 +176,14 @@ class _TaskDialogState extends State<TaskDialog> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               final task = Task(
-                id: '',
+                id: '', // Firestore will auto-generate this
                 title: _titleController.text,
                 description: _descriptionController.text,
                 startDate: _dateController.text,
                 startTime: _startTimeController.text,
                 endTime: _endTimeController.text,
+                deadline: _deadlineController.text, // Save deadline
                 createdAt: Timestamp.now(),
-                deadline: _deadlineController.text.isNotEmpty
-                    ? Timestamp.fromDate(DateTime.parse(_deadlineController.text))
-                    : null,
               );
               widget.onSave(task);
               Navigator.pop(context);
@@ -190,45 +233,7 @@ class _TaskDialogState extends State<TaskDialog> {
       onTap: onTap,
     );
   }
-
-  Future<void> _pickDate() async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now().subtract(const Duration(days: 365)),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
-    );
-    if (picked != null) {
-      setState(() {
-        _dateController.text = "${picked.day}/${picked.month}/${picked.year}";
-      });
-    }
-  }
-
-  Future<void> _pickTime(TextEditingController controller) async {
-    TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-    if (picked != null) {
-      setState(() {
-        controller.text = picked.format(context);
-      });
-    }
-  }
-
-  Future<void> _pickDeadline() async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
-    );
-    if (picked != null) {
-      setState(() {
-        _deadlineController.text = picked.toIso8601String();
-      });
-    }
-  }
 }
+
+
 

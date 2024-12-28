@@ -10,12 +10,13 @@ dependencies:
   flutter:
     sdk: flutter
   firebase_core: ^3.8.1
-  cloud_firestore: ^5.5.1  
+  cloud_firestore: ^5.5.1 
   speech_to_text: ^7.0.0
   flutter_local_notifications: ^13.0.0
+  timezone: ^0.9.0  
   shared_preferences: ^2.3.4
   provider: ^6.1.2
- 
+  
 
 dev_dependencies:
   flutter_test:
@@ -24,4 +25,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
 
