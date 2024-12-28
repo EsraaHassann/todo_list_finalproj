@@ -8,12 +8,17 @@ class TaskDialog extends StatefulWidget {
   final Task? task;
   final Function(Task) onSave;
 
-  const TaskDialog({Key? key, this.task, required this.onSave}) : super(key: key);
-
+  
   @override
   _TaskDialogState createState() => _TaskDialogState();
 }
+class _TaskDialogState extends State<TaskDialog> {
+  final _formKey = GlobalKey<FormState>();
+  late stt.SpeechToText _speech;
+  bool _isListening = false;
 
+  String title = '';
+  String description = '';
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
