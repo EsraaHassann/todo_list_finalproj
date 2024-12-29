@@ -72,79 +72,41 @@ class _TaskDialogState extends State<TaskDialog> {
     }
   }
 
-  Future<void> _pickDate() async {
+  void _pickDate(TextEditingController controller) async {
+    final now = DateTime.now();
+    final firstDate = DateTime(now.year - 1, now.month, now.day);
+
     DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
+      initialDate: now,
+      firstDate: firstDate,
+      lastDate: now.add(const Duration(days: 365)),
     );
+
     if (picked != null) {
-      // Check if the picked date is in the past
+      // Prevent past date selection
       if (picked.isBefore(DateTime.now())) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('The date cannot be in the past')),
         );
       } else {
         setState(() {
-          _dateController.text = "${picked.day}/${picked.month}/${picked.year}";
+          controller.text = "${picked.day}/${picked.month}/${picked.year}";
         });
       }
     }
   }
 
-  Future<void> _pickTime(TextEditingController controller) async {
+  void _pickTime(TextEditingController controller) async {
     TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
+
     if (picked != null) {
       setState(() {
         controller.text = picked.format(context);
       });
-    }
-  }
-
-  Future<void> _pickDeadline() async {
-    // Show Date Picker
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
-    );
-
-    if (pickedDate != null) {
-      // Show Time Picker
-      TimeOfDay? pickedTime = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.now(),
-      );
-
-      if (pickedTime != null) {
-        // Combine selected date and time into a DateTime object
-        DateTime combinedDateTime = DateTime(
-          pickedDate.year,
-          pickedDate.month,
-          pickedDate.day,
-          pickedTime.hour,
-          pickedTime.minute,
-        );
-
-        // Check if the selected deadline is in the past
-        if (combinedDateTime.isBefore(DateTime.now())) {
-          // Show error message if deadline is in the past
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('The deadline cannot be in the past')),
-          );
-        } else {
-          // If valid, set the text in the controller
-          setState(() {
-            _deadlineController.text =
-                "${pickedDate.day}/${pickedDate.month}/${pickedDate.year} ${pickedTime.format(context)}";
-          });
-        }
-      }
     }
   }
 
@@ -171,7 +133,7 @@ class _TaskDialogState extends State<TaskDialog> {
               _buildDateTimeField(
                 label: 'Date',
                 controller: _dateController,
-                onTap: _pickDate,
+                onTap: () => _pickDate(_dateController),
               ),
               const SizedBox(height: 10),
               _buildDateTimeField(
@@ -188,8 +150,8 @@ class _TaskDialogState extends State<TaskDialog> {
               const SizedBox(height: 10),
               _buildDateTimeField(
                 label: 'Deadline',
-                controller: _deadlineController, // New field for deadline
-                onTap: _pickDeadline, // Call the combined picker for deadline
+                controller: _deadlineController,
+                onTap: () => _pickDate(_deadlineController),
               ),
             ],
           ),
@@ -197,16 +159,20 @@ class _TaskDialogState extends State<TaskDialog> {
       ),
       actions: [
         TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
+        TextButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               final task = Task(
-                id: '', // Firestore will auto-generate this
+                id: '', // Firestore auto-generates this
                 title: _titleController.text,
                 description: _descriptionController.text,
                 startDate: _dateController.text,
                 startTime: _startTimeController.text,
                 endTime: _endTimeController.text,
-                deadline: _deadlineController.text, // Save deadline
+                deadline: _deadlineController.text,
                 createdAt: Timestamp.now(),
               );
               widget.onSave(task);
@@ -214,10 +180,6 @@ class _TaskDialogState extends State<TaskDialog> {
             }
           },
           child: const Text('Save'),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
         ),
       ],
     );
@@ -250,20 +212,11 @@ class _TaskDialogState extends State<TaskDialog> {
       controller: controller,
       readOnly: true,
       decoration: InputDecoration(
-        labelText: controller.text.isEmpty ? label : controller.text, // Dynamically show text
+        labelText: controller.text.isEmpty ? label : controller.text,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         suffixIcon: const Icon(Icons.calendar_today),
       ),
       onTap: onTap,
-      // No mandatory validation, just check if the date is in the past
-      validator: (value) {
-        if (value != null && value.isNotEmpty) {
-          if (label == 'Deadline' || label == 'Date') {
-            return value.isEmpty ? 'Please select $label' : null;
-          }
-        }
-        return null;
-      },
     );
   }
 }
