@@ -58,7 +58,7 @@ class Task {
   final String startDate;
   final String startTime;
   final String endTime;
-  final String deadline; // Added deadline field
+  final String deadline; 
   
   Task({
     required this.id,
@@ -69,7 +69,7 @@ class Task {
     required this.startDate,
     required this.startTime,
     required this.endTime,
-    required this.deadline, // Initialize deadline
+    required this.deadline, 
   });
 
   factory Task.fromFirestore(Map<String, dynamic> data, String id) {
@@ -82,7 +82,7 @@ class Task {
       startDate: data['startDate'] ?? '',
       startTime: data['startTime'] ?? '',
       endTime: data['endTime'] ?? '',
-      deadline: data['deadline'] ?? '', // Parse deadline from Firestore
+      deadline: data['deadline'] ?? '', 
     );
   }
 
@@ -95,7 +95,7 @@ class Task {
       'startDate': startDate,
       'startTime': startTime,
       'endTime': endTime,
-      'deadline': deadline, // Include deadline in the map
+      'deadline': deadline, 
     };
   }
 }

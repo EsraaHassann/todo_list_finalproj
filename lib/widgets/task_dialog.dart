@@ -20,7 +20,6 @@ class _TaskDialogState extends State<TaskDialog> {
 
   String title = '';
   String description = '';
-  String deadline = ''; // New field for deadline
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -77,13 +76,20 @@ class _TaskDialogState extends State<TaskDialog> {
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (picked != null) {
-      setState(() {
-        _dateController.text = "${picked.day}/${picked.month}/${picked.year}";
-      });
+      // Check if the picked date is in the past
+      if (picked.isBefore(DateTime.now())) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('The date cannot be in the past')),
+        );
+      } else {
+        setState(() {
+          _dateController.text = "${picked.day}/${picked.month}/${picked.year}";
+        });
+      }
     }
   }
 
@@ -104,7 +110,7 @@ class _TaskDialogState extends State<TaskDialog> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
 
@@ -116,10 +122,28 @@ class _TaskDialogState extends State<TaskDialog> {
       );
 
       if (pickedTime != null) {
-        setState(() {
-          _deadlineController.text =
-              "${pickedDate.day}/${pickedDate.month}/${pickedDate.year} ${pickedTime.format(context)}";
-        });
+        // Combine selected date and time into a DateTime object
+        DateTime combinedDateTime = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+
+        // Check if the selected deadline is in the past
+        if (combinedDateTime.isBefore(DateTime.now())) {
+          // Show error message if deadline is in the past
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('The deadline cannot be in the past')),
+          );
+        } else {
+          // If valid, set the text in the controller
+          setState(() {
+            _deadlineController.text =
+                "${pickedDate.day}/${pickedDate.month}/${pickedDate.year} ${pickedTime.format(context)}";
+          });
+        }
       }
     }
   }
@@ -226,14 +250,20 @@ class _TaskDialogState extends State<TaskDialog> {
       controller: controller,
       readOnly: true,
       decoration: InputDecoration(
-        labelText: label,
+        labelText: controller.text.isEmpty ? label : controller.text, // Dynamically show text
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         suffixIcon: const Icon(Icons.calendar_today),
       ),
       onTap: onTap,
+      // No mandatory validation, just check if the date is in the past
+      validator: (value) {
+        if (value != null && value.isNotEmpty) {
+          if (label == 'Deadline' || label == 'Date') {
+            return value.isEmpty ? 'Please select $label' : null;
+          }
+        }
+        return null;
+      },
     );
   }
 }
-
-
-
