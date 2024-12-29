@@ -16,7 +16,6 @@ void main() async {
     print("Firebase initialization error: $e"); // Catch any initialization errors
   }
 
-  // Initialize NotificationService for notifications
   await NotificationService().initialize();
 
   // Run the app
@@ -32,7 +31,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'To-Do App',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const HomeScreen(), // Home screen is set as the initial screen
+      home: const HomeScreen(), 
     );
   }
 }

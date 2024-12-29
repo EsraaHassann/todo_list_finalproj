@@ -14,7 +14,7 @@ dependencies:
   speech_to_text: ^7.0.0
   flutter_local_notifications: ^13.0.0
   timezone: ^0.9.0  
-  shared_preferences: ^2.3.4
+  shared_preferences: ^2.0.15
   provider: ^6.1.2
   
 

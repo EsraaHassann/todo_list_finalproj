@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/task_model.dart';
 import '../widgets/task_card.dart';
 import '../widgets/task_dialog.dart';
-import '../widgets/drawer_widget.dart'; // Import the Drawer widget
+import '../widgets/drawer_widget.dart'; 
 
 class ToDoScreen extends StatefulWidget {
   const ToDoScreen({Key? key}) : super(key: key);
@@ -13,9 +13,7 @@ class ToDoScreen extends StatefulWidget {
 }
 
 class _ToDoScreenState extends State<ToDoScreen> {
-  // This function will add the task to Firestore and update the state
   void addTask(Task task) async {
-    // Add task to Firebase Firestore
     await FirebaseFirestore.instance.collection('tasks').add({
       'title': task.title,
       'description': task.description,
@@ -23,10 +21,9 @@ class _ToDoScreenState extends State<ToDoScreen> {
       'startDate': task.startDate,
       'startTime': task.startTime,
       'endTime': task.endTime,
-      'createdAt': FieldValue.serverTimestamp(),  // Add a timestamp field
+      'createdAt': FieldValue.serverTimestamp(),  
     });
 
-    // After adding the task to Firestore, trigger a UI update
     setState(() {});
   }
 
@@ -63,10 +60,9 @@ class _ToDoScreenState extends State<ToDoScreen> {
 
     if (taskDoc.docs.isNotEmpty) {
       taskDoc.docs.first.reference.update({
-        'isCompleted': !task.isCompleted, // Toggle completion status
+        'isCompleted': !task.isCompleted, 
       });
 
-      // Refresh the task lists after marking as completed
       setState(() {});
     }
   }
@@ -79,9 +75,9 @@ class _ToDoScreenState extends State<ToDoScreen> {
           task: task,
           onSave: (newTask) {
             if (task != null) {
-              editTask(task, newTask); // Edit task
+              editTask(task, newTask); 
             } else {
-              addTask(newTask); // Add new task
+              addTask(newTask); 
             }
           },
         );
@@ -97,12 +93,12 @@ class _ToDoScreenState extends State<ToDoScreen> {
         backgroundColor: Color.fromARGB(255, 136, 185, 189),
         elevation: 0,
       ),
-      drawer: DrawerWidget(), // Use the new DrawerWidget here
+      drawer: DrawerWidget(), 
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('tasks')
-            .orderBy('createdAt', descending: true) // Ensure tasks are ordered
+            .orderBy('createdAt', descending: true) 
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -118,7 +114,6 @@ class _ToDoScreenState extends State<ToDoScreen> {
                   .toList() ?? 
               [];
 
-          // Filter tasks that are not completed
           final filteredTasks =
               tasks.where((task) => !task.isCompleted).toList();
 
@@ -128,16 +123,16 @@ class _ToDoScreenState extends State<ToDoScreen> {
               final task = filteredTasks[index];
               return TaskCard(
                 task: task,
-                onMark: () => markTask(task), // Mark task as done or undone
-                onEdit: (task) => _showTaskDialog(task: task), // Edit task
-                onDelete: () => deleteTask(task), // Delete task
+                onMark: () => markTask(task), 
+                onEdit: (task) => _showTaskDialog(task: task), 
+                onDelete: () => deleteTask(task), 
               );
             },
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showTaskDialog(), // Add new task
+        onPressed: () => _showTaskDialog(), 
         backgroundColor: Color.fromARGB(255, 136, 185, 189),
         child: const Icon(Icons.add, color: Colors.white),
       ),

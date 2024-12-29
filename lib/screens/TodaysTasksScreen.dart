@@ -20,7 +20,6 @@ class TodaysTasksScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Today's Progress Summary
             const Text(
               "Today's Progress Summary",
               style: TextStyle(
