@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_list_finalproj/widgets/drawer_widget.dart'; // Import the DrawerWidget
 
 class TodaysTasksScreen extends StatelessWidget {
-  const TodaysTasksScreen({Key? key}) : super(key: key);
+  const TodaysTasksScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class TodaysTasksScreen extends StatelessWidget {
           "Today's Overview",
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Color.fromARGB(255, 136, 185, 189),
+        backgroundColor: const Color.fromARGB(255, 136, 185, 189),
       ),
       drawer: DrawerWidget(), // Add the drawer here
       body: Padding(
@@ -34,11 +34,11 @@ class TodaysTasksScreen extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
+              child: const Padding(
+                padding: EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       "Tasks Completed: 3/5",
                       style: TextStyle(fontSize: 18),
@@ -71,24 +71,24 @@ class TodaysTasksScreen extends StatelessWidget {
             const SizedBox(height: 10),
             Expanded(
               child: ListView(
-                children: [
+                children: const [
                   ListTile(
-                    leading: const Icon(Icons.check_box_outline_blank,
+                    leading: Icon(Icons.check_box_outline_blank,
                         color: Color.fromARGB(255, 92, 106, 107)),
-                    title: const Text("Task 1: Complete Flutter UI"),
-                    subtitle: const Text("Deadline: 5:00 PM"),
+                    title: Text("Task 1: Complete Flutter UI"),
+                    subtitle: Text("Deadline: 5:00 PM"),
                   ),
                   ListTile(
-                    leading: const Icon(Icons.check_box,
+                    leading: Icon(Icons.check_box,
                         color: Color.fromARGB(255, 92, 106, 107)),
-                    title: const Text("Task 2: Team Meeting"),
-                    subtitle: const Text("Completed"),
+                    title: Text("Task 2: Team Meeting"),
+                    subtitle: Text("Completed"),
                   ),
                   ListTile(
-                    leading: const Icon(Icons.check_box_outline_blank,
+                    leading: Icon(Icons.check_box_outline_blank,
                         color: Color.fromARGB(255, 92, 106, 107)),
-                    title: const Text("Task 3: Review PRs"),
-                    subtitle: const Text("Deadline: 7:00 PM"),
+                    title: Text("Task 3: Review PRs"),
+                    subtitle: Text("Deadline: 7:00 PM"),
                   ),
                 ],
               ),

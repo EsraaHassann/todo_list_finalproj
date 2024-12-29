@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Home_Page extends StatelessWidget {
-  const Home_Page({Key? key}) : super(key: key);
+  const Home_Page({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +33,11 @@ class Home_Page extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
+              child: const Padding(
+                padding: EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       "Tasks Completed: 3/5",
                       style: TextStyle(fontSize: 18),
@@ -70,24 +70,24 @@ class Home_Page extends StatelessWidget {
             const SizedBox(height: 10),
             Expanded(
               child: ListView(
-                children: [
+                children: const [
                   ListTile(
-                    leading: const Icon(Icons.check_box_outline_blank,
+                    leading: Icon(Icons.check_box_outline_blank,
                         color: Colors.pinkAccent),
-                    title: const Text("Task 1: Complete Flutter UI"),
-                    subtitle: const Text("Deadline: 5:00 PM"),
+                    title: Text("Task 1: Complete Flutter UI"),
+                    subtitle: Text("Deadline: 5:00 PM"),
                   ),
                   ListTile(
                     leading:
-                        const Icon(Icons.check_box, color: Colors.pinkAccent),
-                    title: const Text("Task 2: Team Meeting"),
-                    subtitle: const Text("Completed"),
+                        Icon(Icons.check_box, color: Colors.pinkAccent),
+                    title: Text("Task 2: Team Meeting"),
+                    subtitle: Text("Completed"),
                   ),
                   ListTile(
-                    leading: const Icon(Icons.check_box_outline_blank,
+                    leading: Icon(Icons.check_box_outline_blank,
                         color: Colors.pinkAccent),
-                    title: const Text("Task 3: Review PRs"),
-                    subtitle: const Text("Deadline: 7:00 PM"),
+                    title: Text("Task 3: Review PRs"),
+                    subtitle: Text("Deadline: 7:00 PM"),
                   ),
                 ],
               ),

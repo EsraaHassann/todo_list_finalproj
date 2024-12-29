@@ -56,12 +56,12 @@ class TaskCard extends StatelessWidget {
   final Function() onDelete;
 
   const TaskCard({
-    Key? key,
+    super.key,
     required this.task,
     required this.onMark,
     required this.onEdit,
     required this.onDelete,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

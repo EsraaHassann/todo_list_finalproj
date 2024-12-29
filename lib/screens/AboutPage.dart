@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:todo_list_finalproj/widgets/drawer_widget.dart'; // Import the DrawerWidget
 
 class AboutPage extends StatelessWidget {
-  const AboutPage({Key? key}) : super(key: key);
+  const AboutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("About Us"),
-        backgroundColor: Color.fromARGB(255, 136, 185, 189),
+        backgroundColor: const Color.fromARGB(255, 136, 185, 189),
       ),
       drawer: DrawerWidget(), // Add the drawer here
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Section Title
-              const Text(
+              Text(
                 "Welcome to To-Do App!",
                 style: TextStyle(
                   fontSize: 28,
@@ -27,10 +27,10 @@ class AboutPage extends StatelessWidget {
                   color: Color.fromARGB(255, 136, 185, 189),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
 
               // App Description
-              const Text(
+              Text(
                 "To-Do App is designed to help you stay organized and focused by tracking your tasks. "
                 "It's simple yet powerful, allowing you to manage your daily tasks, mark them as done, and keep track of your progress. "
                 "Whether it's a simple to-do list or a project with deadlines, To-Do App is here to help you achieve your goals efficiently.",
@@ -40,12 +40,12 @@ class AboutPage extends StatelessWidget {
                   height: 1.6,
                 ),
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30),
 
               // Feature Cards (without icons)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
+                children: [
                   _FeatureCard(
                     title: 'Task Management',
                     description: 'Track and organize your tasks easily.',
@@ -56,10 +56,10 @@ class AboutPage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30),
 
               // Our Mission (instead of "Developed By")
-              const Text(
+              Text(
                 "Our Mission",
                 style: TextStyle(
                   fontSize: 24,
@@ -67,8 +67,8 @@ class AboutPage extends StatelessWidget {
                   color: Color.fromARGB(255, 136, 185, 189),
                 ),
               ),
-              const SizedBox(height: 10),
-              const Text(
+              SizedBox(height: 10),
+              Text(
                 "At To-Do App, we believe that effective task management is the key to productivity and success. "
                 "Our goal is to provide a simple yet powerful tool that helps you manage your tasks, set clear goals, and stay organized. "
                 "By keeping track of your tasks and focusing on what matters, we aim to help you achieve your best self every day.",
@@ -78,10 +78,10 @@ class AboutPage extends StatelessWidget {
                   height: 1.6,
                 ),
               ),
-              const SizedBox(height: 40),
+              SizedBox(height: 40),
 
               // Footer Text
-              const Center(
+              Center(
                 child: Text(
                   "© 2024 To-Do App. All rights reserved.",
                   style: TextStyle(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_list_finalproj/screens/ToDoScreen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +24,10 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // Motivational Sentence Section
-            Padding(
-              padding: const EdgeInsets.all(20.0),
+            const Padding(
+              padding: EdgeInsets.all(20.0),
               child: Column(
-                children: const [
+                children: [
                   SizedBox(height: 40), // Spacing from top
                   Text(
                     "Stay Focused, Stay Organized!",

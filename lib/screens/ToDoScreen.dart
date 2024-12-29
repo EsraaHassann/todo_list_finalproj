@@ -6,7 +6,7 @@ import '../widgets/task_dialog.dart';
 import '../widgets/drawer_widget.dart'; 
 
 class ToDoScreen extends StatefulWidget {
-  const ToDoScreen({Key? key}) : super(key: key);
+  const ToDoScreen({super.key});
 
   @override
   _ToDoScreenState createState() => _ToDoScreenState();
@@ -90,7 +90,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("To-Do", style: TextStyle(color: Colors.white)),
-        backgroundColor: Color.fromARGB(255, 136, 185, 189),
+        backgroundColor: const Color.fromARGB(255, 136, 185, 189),
         elevation: 0,
       ),
       drawer: DrawerWidget(), 
@@ -133,7 +133,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showTaskDialog(), 
-        backgroundColor: Color.fromARGB(255, 136, 185, 189),
+        backgroundColor: const Color.fromARGB(255, 136, 185, 189),
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );

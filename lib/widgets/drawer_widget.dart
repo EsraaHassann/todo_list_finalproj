@@ -8,6 +8,8 @@ import 'package:todo_list_finalproj/screens/AboutPage.dart';
 import 'package:todo_list_finalproj/screens/settings_page.dart';
 
 class DrawerWidget extends StatelessWidget {
+  const DrawerWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(

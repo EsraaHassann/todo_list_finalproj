@@ -8,7 +8,7 @@ import '../widgets/drawer_widget.dart'; // Import the Drawer widget
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DoneScreen extends StatefulWidget {
-  const DoneScreen({Key? key}) : super(key: key);
+  const DoneScreen({super.key});
 
   @override
   _DoneScreenState createState() => _DoneScreenState();
@@ -88,7 +88,7 @@ class _DoneScreenState extends State<DoneScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Done", style: TextStyle(color: Colors.white)),
-        backgroundColor: Color.fromARGB(255, 136, 185, 189),
+        backgroundColor: const Color.fromARGB(255, 136, 185, 189),
         elevation: 0,
       ),
       drawer: DrawerWidget(), // Use DrawerWidget here
@@ -130,11 +130,6 @@ class _DoneScreenState extends State<DoneScreen> {
           );
         },
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () => _showTaskDialog(), // Add new task
-      //   backgroundColor: Color.fromARGB(255, 136, 185, 189),
-      //   child: const Icon(Icons.add, color: Colors.white),
-      // ),
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_list_finalproj/widgets/drawer_widget.dart'; // Import the DrawerWidget
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -15,14 +15,14 @@ class _SettingsPageState extends State<SettingsPage> {
   String _selectedLanguage = 'English';
 
   // List of available languages
-  List<String> _languages = ['English', 'Spanish', 'French', 'German'];
+  final List<String> _languages = ['English', 'Spanish', 'French', 'German'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
-        backgroundColor: Color.fromARGB(255, 136, 185, 189),
+        backgroundColor: const Color.fromARGB(255, 136, 185, 189),
       ),
       drawer: DrawerWidget(), // Add the drawer here
       body: Padding(
@@ -55,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ListTile(
               title: const Text('Language'),
               subtitle: Text(_selectedLanguage),
-              trailing: Icon(Icons.arrow_forward_ios),
+              trailing: const Icon(Icons.arrow_forward_ios),
               onTap: () async {
                 String? selected = await showDialog<String>(
                   context: context,

@@ -7,7 +7,7 @@ class TaskDialog extends StatefulWidget {
   final Task? task;
   final Function(Task) onSave;
 
-  const TaskDialog({Key? key, this.task, required this.onSave}) : super(key: key);
+  const TaskDialog({super.key, this.task, required this.onSave});
 
   @override
   _TaskDialogState createState() => _TaskDialogState();

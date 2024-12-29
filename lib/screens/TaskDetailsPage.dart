@@ -4,7 +4,7 @@ import '../models/task_model.dart';
 class TaskDetailsPage extends StatelessWidget {
   final Task task;
 
-  const TaskDetailsPage({Key? key, required this.task}) : super(key: key);
+  const TaskDetailsPage({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {

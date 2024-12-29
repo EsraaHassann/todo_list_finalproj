@@ -19,7 +19,7 @@ void main() async {
   await NotificationService().initialize();
 
   // Run the app
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
