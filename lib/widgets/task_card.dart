@@ -51,9 +51,9 @@ import '../models/task_model.dart';
 
 class TaskCard extends StatelessWidget {
   final Task task;
-  final VoidCallback onMark;
+  final Function() onMark;
   final Function(Task) onEdit;
-  final VoidCallback onDelete;
+  final Function() onDelete;
 
   const TaskCard({
     Key? key,
