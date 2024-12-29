@@ -14,9 +14,6 @@ class _SettingsPageState extends State<SettingsPage> {
   bool _isNotificationsEnabled = true;
   String _selectedLanguage = 'English';
 
-  // List of available languages
-  final List<String> _languages = ['English', 'Spanish', 'French', 'German'];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,41 +48,7 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
 
-            // Language Selection
-            ListTile(
-              title: const Text('Language'),
-              subtitle: Text(_selectedLanguage),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () async {
-                String? selected = await showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Select Language'),
-                      content: SingleChildScrollView(
-                        child: Column(
-                          children: _languages
-                              .map((language) => RadioListTile<String>(
-                                    title: Text(language),
-                                    value: language,
-                                    groupValue: _selectedLanguage,
-                                    onChanged: (value) {
-                                      Navigator.pop(context, value);
-                                    },
-                                  ))
-                              .toList(),
-                        ),
-                      ),
-                    );
-                  },
-                );
-                if (selected != null) {
-                  setState(() {
-                    _selectedLanguage = selected;
-                  });
-                }
-              },
-            ),
+            
 
             // Reset Settings Button
             ElevatedButton(
