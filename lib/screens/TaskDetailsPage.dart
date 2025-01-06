@@ -1,10 +1,90 @@
+import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:file_picker/file_picker.dart'; // To pick audio files
+
 import '../models/task_model.dart';
 
-class TaskDetailsPage extends StatelessWidget {
+class TaskDetailsPage extends StatefulWidget {
   final Task task;
 
   const TaskDetailsPage({super.key, required this.task});
+
+  @override
+  _TaskDetailsPageState createState() => _TaskDetailsPageState();
+}
+
+class _TaskDetailsPageState extends State<TaskDetailsPage> {
+  String transcribedText = "Press the microphone to speak...";
+  bool isLoading = false;
+
+  // Whisper API Integration
+  Future<void> transcribeSpeech(File audioFile) async {
+    const String apiUrl = "https://api.openai.com/v1/audio/transcriptions";
+    const String apiKey = "YOUR_API_KEY"; // Replace with your Whisper API key
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      // Create a multipart request
+      var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
+      request.headers.addAll({
+        'Authorization': 'Bearer $apiKey',
+      });
+
+      // Add audio file
+      request.files.add(await http.MultipartFile.fromPath(
+        'file',
+        audioFile.path,
+      ));
+
+      // Add any required parameters (e.g., language model)
+      request.fields['model'] = 'whisper-1'; // Replace with the appropriate model name
+
+      // Send the request
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final responseData = jsonDecode(responseBody);
+
+        setState(() {
+          transcribedText = responseData['text'] ?? "No transcription found.";
+        });
+      } else {
+        setState(() {
+          transcribedText =
+              "Error: ${response.statusCode} - ${response.reasonPhrase}";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        transcribedText = "Error: Unable to connect to the API.";
+      });
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> pickAudioFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.audio,
+    );
+
+    if (result != null) {
+      File audioFile = File(result.files.single.path!);
+      await transcribeSpeech(audioFile);
+    } else {
+      setState(() {
+        transcribedText = "No audio file selected.";
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,21 +131,21 @@ class TaskDetailsPage extends StatelessWidget {
                   _buildDetailCard(
                     title: "Task Title",
                     icon: Icons.task,
-                    content: task.title,
+                    content: widget.task.title,
                   ),
 
                   // Task Date Card
                   _buildDetailCard(
                     title: "Task Date",
                     icon: Icons.calendar_today,
-                    content: task.startDate,
+                    content: widget.task.startDate,
                   ),
 
                   // Description Card
                   _buildDetailCard(
                     title: "Description",
                     icon: Icons.description,
-                    content: task.description,
+                    content: widget.task.description,
                   ),
 
                   // Timing Card
@@ -73,60 +153,70 @@ class TaskDetailsPage extends StatelessWidget {
                     title: "Timing",
                     icon: Icons.access_time,
                     content:
-                        "Start Time: ${task.startTime}\nEnd Time: ${task.endTime}",
+                        "Start Time: ${widget.task.startTime}\nEnd Time: ${widget.task.endTime}",
                   ),
 
                   // Status Card
                   _buildDetailCard(
                     title: "Status",
-                    icon: task.isCompleted
+                    icon: widget.task.isCompleted
                         ? Icons.check_circle_outline
                         : Icons.cancel_outlined,
-                    content: task.isCompleted ? "Completed" : "Incomplete",
-                    iconColor:
-                        task.isCompleted ? Colors.green : Colors.redAccent,
+                    content:
+                        widget.task.isCompleted ? "Completed" : "Incomplete",
+                    iconColor: widget.task.isCompleted
+                        ? Colors.green
+                        : Colors.redAccent,
+                  ),
+
+                  // Speech-to-Text Section
+                  Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    margin: const EdgeInsets.only(top: 16),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          isLoading
+                              ? CircularProgressIndicator()
+                              : Text(
+                                  transcribedText,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black87,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                          const SizedBox(height: 16),
+                          ElevatedButton.icon(
+                            onPressed: pickAudioFile,
+                            icon: const Icon(Icons.mic, color: Colors.white),
+                            label: const Text(
+                              "Upload Audio",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color.fromARGB(
+                                  255, 136, 185, 189),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
         ],
-      ),
-
-      // Navigation
-      bottomNavigationBar: BottomAppBar(
-        elevation: 0, // No shadow to maintain the clean look
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 16, vertical: 6), // Reduced vertical padding
-          child: ElevatedButton.icon(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back,
-                color: Colors.white), // White icon for better contrast
-            label: const Text(
-              "Return to Tasks",
-              style: TextStyle(
-                color: Colors.white, // White text color for contrast
-                fontWeight: FontWeight.bold, // Bold text to make it stand out
-                fontSize: 14, // Smaller text size
-              ),
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(
-                  255, 136, 185, 189), // Soft background color
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                    30), // Rounded corners for a softer appearance
-              ),
-              padding: const EdgeInsets.symmetric(
-                  vertical: 8), // Reduced padding to make the button smaller
-              elevation: 3, // Reduced shadow for a smaller button
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -143,8 +233,7 @@ class TaskDetailsPage extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      margin: const EdgeInsets.only(
-          bottom: 8), // Reduced margin to minimize spacing
+      margin: const EdgeInsets.only(bottom: 8),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
